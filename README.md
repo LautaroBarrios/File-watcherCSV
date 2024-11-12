@@ -13,7 +13,7 @@ Este programa está diseñado para monitorear una carpeta en busca de nuevos arc
 
 - **Node.js**: Se requiere tener [Node.js](https://nodejs.org/en/download/prebuilt-installer) instalado para ejecutar este programa.
 - **Generar un archivo ".env" en la ruta principal y agregar las siguientes variables de entorno:**
-  - `API`: "colocar URL de la API para el envio de los archivos.".
+  - `API`: "colocar URL de la API para el envio de los datos.".
 
 ## Dependencias instaladas
 
