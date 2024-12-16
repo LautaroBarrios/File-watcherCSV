@@ -45,7 +45,10 @@ async function convertXLSXtoJSON(filePath) {
     }
   });
 
-  return jsonData;
+  // Convertir a cadena JSON usando comillas dobles
+  const jsonString = JSON.stringify(jsonData, null, 2);
+
+  return jsonString;
 }
 
 // Función para enviar el archivo a la API
