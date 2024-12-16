@@ -148,6 +148,13 @@ fs.watch(directoryPath, (eventType, filename) => {
 });
 
 // Mensaje de confirmación cuando la aplicación está montada y funcionando
+console.log("\x1b[96m ░█████╗░░██████╗██╗░░░██╗\x1b[0m");
+console.log("\x1b[96m ██╔══██╗██╔════╝██║░░░██║\x1b[0m");
+console.log("\x1b[96m ██║░░╚═╝╚█████╗░╚██╗░██╔╝\x1b[0m");
+console.log("\x1b[96m ██║░░██╗░╚═══██╗░╚████╔╝░\x1b[0m");
+console.log("\x1b[96m ██║░░██╗░╚═══██╗░╚████╔╝░\x1b[0m");
+console.log("\x1b[96m ╚█████╔╝██████╔╝░░╚██╔╝░░\x1b[0m");
+console.log("\x1b[96m ░╚════╝░╚═════╝░░░░╚═╝░░░\x1b[0m");
 console.log(
   "\x1b[96m App en funcionamiento y escuchando cambios en la carpeta de archivos...\x1b[0m"
 );
