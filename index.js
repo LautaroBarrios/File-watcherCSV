@@ -6,7 +6,7 @@ import xlsx from "xlsx";
 const directoryPath = path.join(
   "C:",
   "Users",
-  "Lautaro",
+  "IngreseSuUsuarioAqui",
   "Desktop",
   "FilesWatcherCSV"
 ); // Cambia esta ruta a tu carpeta de archivos CSV
