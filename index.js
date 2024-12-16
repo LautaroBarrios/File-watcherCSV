@@ -6,9 +6,9 @@ import xlsx from "xlsx";
 const directoryPath = path.join(
   "C:",
   "Users",
-  "IngresarUsuario",
+  "Lautaro",
   "Desktop",
-  "FilesWatcher"
+  "FilesWatcherCSV"
 ); // Cambia esta ruta a tu carpeta de archivos CSV
 const apiEndpoint = process.env.API; // URL a la que envia los archivos
 const maxRetries = 5; // Número máximo de reintentos

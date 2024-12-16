@@ -1,5 +1,5 @@
 {
-  "name": "file-watcher",
+  "name": "file-watcher-csv",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

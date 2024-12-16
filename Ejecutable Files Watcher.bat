@@ -1,3 +1,3 @@
-cd /D "D:\Proyectos\File-watcher"
+cd /D "D:\Proyectos\File-watcherCSV"
 npm run nodemon
 pause
