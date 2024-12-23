@@ -31,12 +31,44 @@ function convertDecimalToTime(decimal) {
     .padStart(2, "0")}`;
 }
 
+// Función para limpiar los valores específicos
+function cleanResults(data) {
+  const keysToIgnore = [
+    "ID muestr",
+    "Modo",
+    "Fecha",
+    "Hora",
+    "Grupo de ref.",
+    "Operador",
+    "Mensaje RBC",
+  ];
+
+  return data.map((row) => {
+    Object.keys(row).forEach((key) => {
+      if (keysToIgnore.includes(key) || typeof row[key] !== "string") return;
+
+      let value = row[key];
+
+      // Eliminar prefijos de una letra seguida de espacio o varias letras con espacio
+      value = value.replace(/^[A-Z]{1,}\s/, "");
+
+      // Eliminar caracteres no numéricos si no hay letras ni espacios
+      if (!/[a-zA-Z\s]/.test(value)) {
+        value = value.replace(/[^\d.-]+/g, "");
+      }
+
+      row[key] = value.trimEnd(); // Asegurar limpieza final
+    });
+    return row;
+  });
+}
+
 // Función para convertir un archivo XLSX a JSON
 async function convertXLSXtoJSON(filePath) {
   const workbook = xlsx.readFile(filePath);
-  const sheetName = workbook.SheetNames[0]; // Leer la primera hoja
+  const sheetName = workbook.SheetNames[0];
   const sheet = workbook.Sheets[sheetName];
-  const jsonData = xlsx.utils.sheet_to_json(sheet);
+  let jsonData = xlsx.utils.sheet_to_json(sheet);
 
   // Convertir la hora de decimal a formato HH:MM si está presente
   jsonData.forEach((row) => {
@@ -45,10 +77,10 @@ async function convertXLSXtoJSON(filePath) {
     }
   });
 
-  // Convertir a cadena JSON usando comillas dobles
-  const jsonString = JSON.stringify(jsonData, null, 2);
+  // Limpiar los resultados
+  jsonData = cleanResults(jsonData);
 
-  return jsonString;
+  return JSON.stringify(jsonData, null, 2);
 }
 
 // Función para enviar el archivo a la API
