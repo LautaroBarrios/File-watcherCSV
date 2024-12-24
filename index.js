@@ -43,11 +43,35 @@ function cleanResults(data) {
     "Mensaje RBC",
   ];
 
+  // Valores a multiplicar
+  const multipliers = {
+    "PLT (10^9/L)": 1000,
+    "WBC (10^9/L)": 1000,
+    "RBC (10^12/L)": 1000000,
+  };
+
+  // Valores a mantener en decimales
+  const decimals = ["HGB (g/dL)", "RDW-CV (%)"];
+
+  // Función para normalizar y limpiar las claves de los datos y las del multipliers
+  function normalizeKey(key) {
+    return key
+      .trim() // Eliminar espacios al principio y al final
+      .toUpperCase() // Convertir a mayúsculas para comparación uniforme
+      .normalize("NFD") // Normalizar caracteres Unicode
+      .replace(/[\u0300-\u036f]/g, ""); // Eliminar los acentos
+  }
+
   return data.map((row) => {
     Object.keys(row).forEach((key) => {
-      if (keysToIgnore.includes(key) || typeof row[key] !== "string") return;
+      if (keysToIgnore.includes(key)) return;
 
       let value = row[key];
+
+      // Si el valor no es un string, convertirlo en string
+      if (typeof value !== "string") {
+        value = String(value);
+      }
 
       // Eliminar prefijos de una letra seguida de espacio o varias letras con espacio
       value = value.replace(/^[A-Z]{1,}\s/, "");
@@ -58,6 +82,21 @@ function cleanResults(data) {
       }
 
       row[key] = value.trimEnd(); // Asegurar limpieza final
+
+      // Normalizar la clave
+      const normalizedKey = normalizeKey(key);
+
+      // Verificar si la clave existe en los multiplicadores
+      if (multipliers[normalizedKey]) {
+        row[key] = Math.round(row[key] * multipliers[normalizedKey]); // Aplicar multiplicador
+      }
+
+      // Redondear salvo que esté en la lista de decimales
+      if (!decimals.includes(key)) {
+        row[key] = Math.round(row[key]);
+      } else {
+        row[key] = Number(row[key]);
+      }
     });
     return row;
   });
