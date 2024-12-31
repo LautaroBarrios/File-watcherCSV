@@ -88,14 +88,24 @@ function cleanResults(data) {
 
       // Verificar si la clave existe en los multiplicadores
       if (multipliers[normalizedKey]) {
-        row[key] = Math.round(row[key] * multipliers[normalizedKey]); // Aplicar multiplicador
+        // Multiplicar el valor antes de redondearlo
+        let multipliedValue = row[key] * multipliers[normalizedKey];
+
+        // Redondear después de la multiplicación
+        multipliedValue = Math.round(multipliedValue);
+
+        // Convertir el número a cadena y aplicar el formato de puntos
+        row[key] = String(multipliedValue).replace(
+          /\B(?=(\d{3})+(?!\d))/g,
+          "."
+        );
       }
 
       // Redondear salvo que esté en la lista de decimales
-      if (!decimals.includes(key)) {
+      else if (!decimals.includes(key)) {
         row[key] = Math.round(row[key]);
       } else {
-        row[key] = Number(row[key]);
+        row[key] = row[key].replace(".", ",");
       }
     });
     return row;
@@ -128,7 +138,7 @@ async function sendFileToAPI(filePath) {
 
   try {
     const jsonData = await convertXLSXtoJSON(filePath);
-    // return console.log(jsonData);
+    // return console.log(jsonData); // Puedes descomentar esto para depurar
 
     const response = await fetch(apiEndpoint, {
       method: "POST",
