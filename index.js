@@ -142,7 +142,7 @@ async function sendFileToAPI(filePath) {
 
     const response = await fetch(apiEndpoint, {
       method: "POST",
-      body: JSON.stringify(jsonData),
+      body: jsonData,
       headers: {
         "Content-Type": "application/json",
       },
