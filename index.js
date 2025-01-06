@@ -31,6 +31,24 @@ function convertDecimalToTime(decimal) {
     .padStart(2, "0")}`;
 }
 
+// Función para convertir la fecha decimal a formato dd/mm/yyyy
+function convertExcelDate(excelDate) {
+  const excelStartDate = new Date(1900, 0, 1); // 1 de enero de 1900
+  const days = Math.floor(excelDate); // Días enteros
+  const milliseconds = (excelDate - days) * 24 * 60 * 60 * 1000; // Fracción del día a milisegundos
+
+  const finalDate = new Date(
+    excelStartDate.getTime() + (days - 2) * 24 * 60 * 60 * 1000 + milliseconds
+  ); // -1 porque Excel tiene un error
+
+  // Formatear la fecha como dd/mm/yyyy
+  return finalDate.toLocaleDateString("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 // Función para limpiar los valores específicos
 function cleanResults(data) {
   const keysToIgnore = [
@@ -123,6 +141,9 @@ async function convertXLSXtoJSON(filePath) {
   jsonData.forEach((row) => {
     if (row.Hora && typeof row.Hora === "number") {
       row.Hora = convertDecimalToTime(row.Hora);
+    }
+    if (row.Fecha && typeof row.Fecha === "number") {
+      row.Fecha = convertExcelDate(row.Fecha);
     }
   });
 
