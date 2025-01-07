@@ -5,8 +5,8 @@ import xlsx from "xlsx";
 
 const directoryPath = path.join("C:", "Hematologia"); // Cambia esta ruta a tu carpeta de archivos CSV
 const apiEndpoint = process.env.API; // URL a la que envia los archivos
-const maxRetries = 5; // Número máximo de reintentos
-const retryInterval = 60000; // Tiempo entre máximo entre reintentos (1 minuto)
+const maxRetries = 3; // Número máximo de reintentos
+const retryInterval = 1; // Tiempo entre máximo entre reintentos (1 ms)
 
 // Crear la carpeta si no existe
 if (!fs.existsSync(directoryPath)) {
@@ -195,7 +195,7 @@ async function retrySendFileToAPI(filePath, retries = 0) {
       console.log(
         `\x1b[93m     ESPERA - Reintentando (${
           retries + 1
-        }/${maxRetries}) en 1 minuto...\x1b[0m`
+        }/${maxRetries}) en 1 ms...\x1b[0m`
       );
       setTimeout(
         () => retrySendFileToAPI(filePath, retries + 1),
